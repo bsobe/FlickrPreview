@@ -1,6 +1,7 @@
 package com.bsobe.flickrpreview.data
 
 import com.bsobe.flickrpreview.BuildConfig
+import com.bsobe.flickrpreview.data.services.FlickrService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,14 +15,16 @@ open class RetrofitInstance {
         }
 
         val client = OkHttpClient().newBuilder()
-            .addInterceptor(logger)
-            .build()
+                .addInterceptor(logger)
+                .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.flickr.com/")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+                .baseUrl(Constants.BASE_SERVICE_API)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+        val flickrService: FlickrService = retrofit.create(FlickrService::class.java)
 
     }
 }
